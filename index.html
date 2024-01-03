@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css">
+    <title>Tile Editor</title>
+  </head>
+  
+  <body oncontextmenu="return false;" ondragstart="return false;">
+    <!-- Template for showing a layer in the sidebar -->
+    <template id="layerTemplate">
+      <div class="layer">
+        <img class="lvisible" src="img/eye.png" height="15px">
+        <p class="lname"></p>
+        <img class="ltrash" src="img/trash.png" height="15px">
+      </div>
+    </template>
+
+    <!-- Usually hidden content -->
+    <div id="fileOverlay" style="display: none; z-index: 1">
+      <div id="fileBlock">
+        <button id="fileInputLabel" class="clickable" onclick="document.querySelector('#fileInput').click();">Choose File</button>
+        <input type="file" id="fileInput" style="display:none;" accept=".png, .jpg, .jpeg, .apng, .avif, .gif, .svg, .webp">
+        <div id="closeFileOverlay" class="close clickable">&times;</div>
+        <fieldset id="fileProperties">
+          <legend>Tileset properties</legend>
+          <label for="tileWidth">Width of tile: </label><input id="tileWidth" oninput="this.value = this.value.replace(/[^0-9]/, '');">
+          <br>
+          <label for="tileHeight">Height of tile: </label><input id="tileHeight" oninput="this.value = this.value.replace(/[^0-9]/, '');">
+        </fieldset>
+        <button id="submitData" class="clickable" style="display:none;">Submit Data</button>
+      </div>
+    </div>
+    <div id="layerOverlay" style="display: none; z-index: 1">
+      <div id="layerBlock">
+        <div id="closeLayerOverlay" class="close clickable">&times;</div>
+        <fieldset id="fileProperties">
+          <legend>Layer properties</legend>
+          <label for="name">Tileset name: </label><input id="name" oninput="this.value = this.value.replace(/[^A-Za-z0-9]/, '');">
+        </fieldset>
+        <button id="submitLayer" class="clickable">Add Layer</button>
+      </div>
+    </div>
+    <div id="settingsOverlay" style="display: none; z-index: 2">
+      <div id="settingsBlock">
+        <div id="closeSettingsOverlay" class="close clickable">&times;</div>
+        <fieldset id="settingsList">
+          <legend>Settings</legend>
+          <label for="widthInTiles">How many tiles wide: </label><input id="widthInTiles" oninput="this.value = this.value.replace(/[^0-9]/, '');">
+          <br>
+          <label for="heightInTiles">How many tiles tall: </label><input id="heightInTiles" oninput="this.value = this.value.replace(/[^0-9]/, '');">
+        </fieldset>
+        <div id="port">
+          <button id="import" class="clickable">Import map data</button>
+          <button id="export" class="clickable">Export map data</button>
+        </div>
+        <button id="updateSettings" class="clickable">Update settings</button>
+      </div>
+    </div>
+    <!-- End of usually hidden content -->
+    
+    <div id="sidebar">
+      <fieldset id="tileset" class="side">
+        <legend>Tileset</legend>
+        <div id="tCanvasWrapper"><canvas id="tilesetCanvas" width="0" height="0" style="border:none;"></canvas></div>
+        <button id="newTileset" class="clickable">Add tileset</button>
+      </fieldset>
+      
+      <fieldset id="layers" class="side">
+        <legend>Layers</legend>
+        
+        <button id="newLayer" class="clickable">Add layer</button>
+      </fieldset>
+    </div>
+    
+    <div id="main">
+      <canvas width="0" height="0" id="mapCanvas" style="background:none; border:none;"></canvas>
+      <canvas width="0" height="0" id="mapHidden1" style="display:none; background:green"></canvas>
+    </div>
+    <div id="toolbar">
+      <img id="penTool" class="clickable" src="img/greenPen.png" height="45">
+      <img id="eraserTool" class="clickable" src="img/eraser.png" height="45" style="left: calc(50% - 2px); transform: translate(-50%, 0)">
+      <img id="settings" class="clickable" src="img/setting.png" height="30" style="top: 8px; right: 5px">
+    </div>
+    
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
